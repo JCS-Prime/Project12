@@ -42,10 +42,65 @@ export default function HomeScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, padding: 24, justifyContent: "center", backgroundColor: "#fffbeb" },
-  title: { fontSize: 26, fontWeight: "700", marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: "#d1d5db", borderRadius: 10, padding: 12, marginBottom: 12, backgroundColor: "#fff" },
-  error: { color: "#dc2626", marginBottom: 12 },
-  button: { backgroundColor: "#f59e0b", padding: 14, borderRadius: 10, alignItems: "center" },
-  buttonText: { color: "#fff", fontWeight: "700", fontSize: 16 },
+  container: {
+    flex: 1,
+    padding: 28,
+    justifyContent: "center",
+    backgroundColor: "#0B1120",
+  },
+
+  title: {
+    fontSize: 32,
+    fontWeight: "800",
+    marginBottom: 30,
+    color: "#F8FAFC",
+    letterSpacing: 0.5,
+    textAlign: "center",
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: "#334155",
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    marginBottom: 18,
+    backgroundColor: "#172033",
+    color: "#F1F5F9",
+    fontSize: 16,
+  },
+
+  error: {
+    color: "#FB7185",
+    marginBottom: 16,
+    fontSize: 14,
+    fontWeight: "500",
+    paddingHorizontal: 4,
+  },
+
+  button: {
+    backgroundColor: "#10B981",
+    paddingVertical: 17,
+    paddingHorizontal: 20,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    elevation: 5,
+    shadowColor: "#10B981",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+  },
+
+  buttonText: {
+    color: "#052E24",
+    fontWeight: "800",
+    fontSize: 17,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
 });
