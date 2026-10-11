@@ -1,14 +1,14 @@
 
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
+  Keyboard,
   Pressable,
   StyleSheet,
-  Keyboard,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
-import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -18,9 +18,10 @@ export default function HomeScreen() {
   const [error, setError] = useState("");
 
   const handleSearch = () => {
+    const name = visitor.trim();
     const userId = id.trim();
 
-    if (!visitor.trim()) {
+    if (!name) {
       setError("Please enter your name.");
       return;
     }
@@ -30,15 +31,8 @@ export default function HomeScreen() {
       return;
     }
 
-    const numberId = Number(userId);
-
-    if (
-      !/^\d+$/.test(userId) ||
-      !Number.isInteger(numberId) ||
-      numberId < 1 ||
-      numberId > 10
-    ) {
-      setError("User ID must be between 1 and 10.");
+    if (!/^(10|[1-9])$/.test(userId)) {
+      setError("User ID must be a whole number from 1 to 10.");
       return;
     }
 
@@ -47,114 +41,119 @@ export default function HomeScreen() {
 
     router.push({
       pathname: "/user/[id]",
-      params: { id: String(numberId) },
+      params: {
+        id: userId,
+        visitor: name,
+      },
     });
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>User Finder</Text>
+    <View style={s.container}>
+      <Text style={s.title}>Find a user 👤</Text>
 
-      <Text style={styles.subtitle}>
-        Search for users using their ID
-      </Text>
-
-      <Text style={styles.label}>Your Name</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Enter your name"
+        style={s.input}
+        placeholder="Your name"
+        placeholderTextColor="#94A3B8"
         value={visitor}
-        onChangeText={(value) => {
-          setVisitor(value);
+        onChangeText={(text) => {
+          setVisitor(text);
           setError("");
         }}
       />
 
-      <Text style={styles.label}>User ID</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Enter ID (1-10)"
+        style={s.input}
+        placeholder="User ID (1-10)"
+        placeholderTextColor="#94A3B8"
         keyboardType="number-pad"
         value={id}
         maxLength={2}
-        onChangeText={(value) => {
-          setId(value);
+        onChangeText={(text) => {
+          setId(text);
           setError("");
         }}
         onSubmitEditing={handleSearch}
       />
 
       {error ? (
-        <Text style={styles.error}>{error}</Text>
+        <Text style={s.error}>{error}</Text>
       ) : null}
 
       <Pressable
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.pressed,
-        ]}
+        style={s.button}
         onPress={handleSearch}
         accessibilityRole="button"
         accessibilityLabel="Search user"
       >
-        <Text style={styles.buttonText}>
-          Search User
-        </Text>
+        <Text style={s.buttonText}>Search</Text>
       </Pressable>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
+    padding: 28,
     justifyContent: "center",
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#0B1120",
   },
+
   title: {
-    fontSize: 30,
-    fontWeight: "700",
-    color: "#0f172a",
-    marginBottom: 8,
+    fontSize: 32,
+    fontWeight: "800",
+    marginBottom: 30,
+    color: "#F8FAFC",
+    letterSpacing: 0.5,
+    textAlign: "center",
   },
-  subtitle: {
-    fontSize: 15,
-    color: "#64748b",
-    marginBottom: 28,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#334155",
-    marginBottom: 8,
-  },
+
   input: {
     borderWidth: 1,
-    borderColor: "#cbd5e1",
-    borderRadius: 10,
-    padding: 14,
-    fontSize: 16,
-    backgroundColor: "#ffffff",
+    borderColor: "#334155",
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
     marginBottom: 18,
+    backgroundColor: "#172033",
+    color: "#F1F5F9",
+    fontSize: 16,
   },
+
   error: {
-    color: "#dc2626",
+    color: "#FB7185",
     marginBottom: 16,
     fontSize: 14,
+    fontWeight: "500",
+    paddingHorizontal: 4,
   },
+
   button: {
-    backgroundColor: "#2563eb",
-    padding: 16,
-    borderRadius: 10,
+    backgroundColor: "#10B981",
+    paddingVertical: 17,
+    paddingHorizontal: 20,
+    borderRadius: 16,
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    elevation: 5,
+    shadowColor: "#10B981",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
   },
-  pressed: {
-    opacity: 0.75,
-  },
+
   buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "700",
+    color: "#052E24",
+    fontWeight: "800",
+    fontSize: 17,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
   },
 });
+

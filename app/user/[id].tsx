@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, Pressable, StyleSheet, ScrollView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 type User = { id: number; name: string; email: string; phone: string; company: { name: string } };
 type Post = { id: number; title: string };
@@ -13,6 +13,7 @@ export default function UserScreen() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
   useEffect(() => {
@@ -58,6 +59,12 @@ export default function UserScreen() {
       <Text style={s.hello}>Hi {visitor}! Here is user #{id}</Text>
 
       <View style={s.card}>
+        {/* Avatar Icon */}
+      <View style={s.avatar}>
+      <Text style={s.avatarIcon}>👤</Text>
+      </View>
+      
+      
         <Text style={s.name}>{user?.name}</Text>
         <Text>📧 {user?.email}</Text>
         <Text>📞 {user?.phone}</Text>
@@ -83,6 +90,22 @@ const s = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center", padding: 24 },
   hello: { fontSize: 18, marginBottom: 14 },
   card: { backgroundColor: "#fff", padding: 16, borderRadius: 12, gap: 4, marginBottom: 20 },
+  avatar: {
+  width: 90,
+  height: 90,
+  borderRadius: 45,
+  backgroundColor: "#fef3c7",
+  alignItems: "center",
+  justifyContent: "center",
+  alignSelf: "center",
+  marginBottom: 12,
+  borderWidth: 2,
+  borderColor: "#f59e0b",
+},
+
+avatarIcon: {
+  fontSize: 48,
+},
   name: { fontSize: 22, fontWeight: "700" },
   like: { backgroundColor: "#f59e0b", padding: 10, borderRadius: 8, alignItems: "center", marginTop: 10 },
   section: { fontWeight: "700", fontSize: 16, marginBottom: 8 },
