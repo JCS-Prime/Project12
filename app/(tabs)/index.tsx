@@ -1,6 +1,14 @@
+
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -10,37 +18,75 @@ export default function HomeScreen() {
   const [error, setError] = useState("");
 
   const handleSearch = () => {
-    const num = Number(id);
-    if (!visitor.trim()) return setError("Please enter your name.");
-    if (!Number.isInteger(num) || num < 1 || num > 10)
-      return setError("User ID must be a number from 1 to 10.");
+    const name = visitor.trim();
+    const userId = id.trim();
+
+    if (!name) {
+      setError("Please enter your name.");
+      return;
+    }
+
+    if (!userId) {
+      setError("Please enter a user ID.");
+      return;
+    }
+
+    if (!/^(10|[1-9])$/.test(userId)) {
+      setError("User ID must be a whole number from 1 to 10.");
+      return;
+    }
 
     setError("");
-    router.push({ pathname: "/user/[id]", params: { id: String(num), visitor: visitor.trim() } });
+    Keyboard.dismiss();
+
+    router.push({
+      pathname: "/user/[id]",
+      params: {
+        id: userId,
+        visitor: name,
+      },
+    });
   };
 
   return (
     <View style={s.container}>
       <Text style={s.title}>Find a user 👤</Text>
 
-      <TextInput style={s.input} placeholder="Your name" value={visitor} onChangeText={(text) => {
-      setVisitor(text);
-       setError("");
-}} />
+      <TextInput
+        style={s.input}
+        placeholder="Your name"
+        placeholderTextColor="#94A3B8"
+        value={visitor}
+        onChangeText={(text) => {
+          setVisitor(text);
+          setError("");
+        }}
+      />
+
       <TextInput
         style={s.input}
         placeholder="User ID (1-10)"
+        placeholderTextColor="#94A3B8"
         keyboardType="number-pad"
         value={id}
+        maxLength={2}
         onChangeText={(text) => {
-        setId(text);
-         setError("");
-}}
+          setId(text);
+          setError("");
+        }}
+        onSubmitEditing={handleSearch}
       />
 
-      {error ? <Text style={s.error}>{error}</Text> : null}
+      {error ? (
+        <Text style={s.error}>{error}</Text>
+      ) : null}
 
-      <Pressable style={s.button} onPress={handleSearch}>
+      <Pressable
+        style={s.button}
+        onPress={handleSearch}
+        accessibilityRole="button"
+        accessibilityLabel="Search user"
+      >
         <Text style={s.buttonText}>Search</Text>
       </Pressable>
     </View>
@@ -110,3 +156,4 @@ const s = StyleSheet.create({
     textTransform: "uppercase",
   },
 });
+
