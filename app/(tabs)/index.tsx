@@ -23,13 +23,19 @@ export default function HomeScreen() {
     <View style={s.container}>
       <Text style={s.title}>Find a user 👤</Text>
 
-      <TextInput style={s.input} placeholder="Your name" value={visitor} onChangeText={setVisitor} />
+      <TextInput style={s.input} placeholder="Your name" value={visitor} onChangeText={(text) => {
+      setVisitor(text);
+       setError("");
+}} />
       <TextInput
         style={s.input}
         placeholder="User ID (1-10)"
         keyboardType="number-pad"
         value={id}
-        onChangeText={setId}
+        onChangeText={(text) => {
+        setId(text);
+         setError("");
+}}
       />
 
       {error ? <Text style={s.error}>{error}</Text> : null}
